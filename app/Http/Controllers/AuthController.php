@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use JWTAuth;
 
 class AuthController extends Controller
 {
@@ -28,7 +31,9 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-    	
+    	$inputs = $request->only('username','displayname','email','password');
+    	$user = User::create($inputs);
+    	return response()->json(['id' => $user->id]);
     }
 
     public function logout()

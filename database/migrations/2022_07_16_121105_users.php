@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('displayname');
             $table->string('email');
             $table->string('password');
-            $table->string('info');
-            $table->boolean('enabled_account');
+            $table->string('info')->nullable();
+            $table->boolean('enabled_account')->default(False);
             $table->timestamp('created_at')->nullable();
         });
 
