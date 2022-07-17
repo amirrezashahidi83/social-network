@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use JWTAuth;
 
 class AuthController extends Controller
@@ -16,7 +17,7 @@ class AuthController extends Controller
     	$password = $request->password;
 
     	$fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
- 		
+
  		try {
                 if (! $token = JWTAuth::attempt([$fieldType => $login,'password' => $password])) {
                     return response()->json(['error' => 'invalid_credentials'], 400);
@@ -32,7 +33,12 @@ class AuthController extends Controller
     public function register(Request $request)
     {
     	$inputs = $request->only('username','displayname','email','password');
-    	$user = User::create($inputs);
+    	$user = new User();
+    	$user->username = $inputs['username'];
+    	$user->displayname = $inputs['displayname'];
+    	$user->email = $inputs['email'];
+    	$user->password = Hash::make($inputs['password']);
+    	$user->save();
     	return response()->json(['id' => $user->id]);
     }
 
