@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('post_comments', function (Blueprint $table) {
             $table->id();
             $table->string('discussion');
+            $table->Json('likes');
             $table->foreignId('post_id');
             $table->foreign('post_id')->references('id')->on('posts');
             $table->timestamp('created_at')->nullable();

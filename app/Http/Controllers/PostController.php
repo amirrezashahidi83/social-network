@@ -21,6 +21,21 @@ class PostController extends Controller
 		return ($post->save() ? 1 : 0);
 	}
 
+	public function editPost(Request $request)
+	{
+		$inputs = $request->only('id','discussion','media','sender_id');
+
+		$post = Post::where('id',$inputs['id'])->first();
+
+		$post->discussion = $inputs['discussion'];
+		if($request->exists('media'))
+			$post->media = $inputs['media'];
+		$post->sender_id = $inputs['sender_id'];
+
+		return ($post->save() ? 1 : 0);
+
+	}
+
     public function getPost(Request $request)
     {
 

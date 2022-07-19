@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
-
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,11 +25,17 @@ Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'register']);
 
 Route::post('/addpost',[PostController::class,'addPost']);
+Route::post('/editpost',[PostController::class,'getPost']);
 Route::post('/getpost',[PostController::class,'getPost']);
 Route::post('/getuserposts',[PostController::class,'getUserPosts']);
 Route::post('/deletepost',[PostController::class,'deletePost']);
 Route::post('/searchpost',[PostController::class,'searchPost']);
 
+Route::post('/addcomment',[CommentController::class,'addComment']);
+Route::post('/editcomment',[CommentController::class,'editComment']);
+Route::get('/getcomment',[CommentController::class,'getComment']);
+Route::get('/getpostcomments',[CommentController::class,'getPostComments']);
+Route::post('/deletecomment',[CommentController::class,'deleteComment']);
 
 Route::get('/user/{username}',[UserController::class,'getUser']);
 Route::get('/searchuser/{search}',[UserController::class,'searchUser']);

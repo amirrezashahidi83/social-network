@@ -10,4 +10,6 @@ class Comment extends Model
     use HasFactory;
 
     protected $table = 'post_comments';
+
+    public $timestamps = false;
 }
