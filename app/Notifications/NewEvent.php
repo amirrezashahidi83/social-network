@@ -6,21 +6,26 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\App\Models\Event;
 class NewEvent extends Notification
 {
     use Queueable;
 
-    protected $Event;
+    protected $fromUser,$message;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($meesage)
     {
-        $Event = new Event();
+        $this->message = $message;
     }
+
+    public function __construct($meesage,$fromUser)
+    {
+        $this->message = $message;
+        $this->fromUser = $fromUser;
+    }    
 
     /**
      * Get the notification's delivery channels.
@@ -30,7 +35,7 @@ class NewEvent extends Notification
      */
     public function via($notifiable)
     {
-        return ['array'];
+        return ['database'];
     }
 
     /**
@@ -56,10 +61,9 @@ class NewEvent extends Notification
     public function toArray($notifiable)
     {
         return [
-            'id' => $Event->id,
-            'sender_id' => $Event->sender_id,
-            'receiver_id' => $Event->receiver_id,
-            'message' => setMessage($Event->type)
+            'fromUser' => $fromUser,
+            'toUser' => $notifiable->id,
+            'message' => $message
         ];
     }
 
