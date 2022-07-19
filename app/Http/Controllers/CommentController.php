@@ -39,4 +39,22 @@ class CommentController extends Controller
 		return response()->Json($posts);
 
     }
+
+    public function likeComment(Request $request)
+	{
+		$inputs = $request->only('comment_id','user_id','dislike');
+
+		$post_id = $inputs['comment_id'];
+		$user_id = $inputs['user_id'];
+		$dislike = $inputs['dislike'];
+
+		$post = Comment::where('id',$post_id)->first();
+
+		$likes_json = json_decode($post->likes);
+
+		array_push($likes_json,array($user_id,$dislike));
+
+		return ($post->save()?1:0);	
+	}
+
 }

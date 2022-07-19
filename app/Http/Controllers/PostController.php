@@ -67,4 +67,21 @@ class PostController extends Controller
 		return response()->Json($posts);
 	}
 
+	public function likePost(Request $request)
+	{
+		$inputs = $request->only('post_id','user_id','dislike');
+
+		$post_id = $inputs['post_id'];
+		$user_id = $inputs['user_id'];
+		$dislike = $inputs['dislike'];
+
+		$post = Post::where('id',$post_id)->first();
+
+		$likes_json = json_decode($post->likes);
+
+		array_push($likes_json,array($user_id,$dislike));
+
+		return ($post->save()?1:0);	
+	}
+
 }
