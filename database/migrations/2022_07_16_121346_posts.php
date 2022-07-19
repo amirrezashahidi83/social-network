@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('discussion');
             $table->json('media')->nullable();
             $table->foreignId('sender_id');
-            $table->json('likes');
+            $table->json('likes')->nullable();
             $table->foreign('sender_id')->references('id')->on('users');
             $table->timestamp('created_at')->nullable();
         });
