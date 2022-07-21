@@ -26,7 +26,7 @@ Route::post('/register',[AuthController::class,'register']);
 
 Route::post('/addpost',[PostController::class,'addPost']);
 Route::post('/editpost',[PostController::class,'getPost']);
-Route::post('/getpost',[PostController::class,'getPost']);
+Route::post('/post',[PostController::class,'getPost']);
 Route::post('/getuserposts',[PostController::class,'getUserPosts']);
 Route::post('/deletepost',[PostController::class,'deletePost']);
 Route::post('/searchpost',[PostController::class,'searchPost']);

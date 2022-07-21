@@ -13,4 +13,4 @@ use App\Http\Controllers\EventController;
 |
 */
 Route::get('/event',[EventController::class,'index']);
-Route::view('/{path?}', 'index');
+Route::view('/{path?}/{path2?}', 'index');

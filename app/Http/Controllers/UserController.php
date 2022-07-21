@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function getUser($username)
     {
-    	$user = User::where('username',$username)->first();
+    	$user = User::where('id',$username)->first();
     	return response()->Json(['username'=>$username,'displayname'=>$user->displayname,'info'=>$user->info,'profile'=>$user->profilepic]);
     }
 

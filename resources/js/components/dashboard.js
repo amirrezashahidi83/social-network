@@ -1,16 +1,13 @@
 import Post from './post';
+import Searchbox from './Searchbox';
 
-function searchbox(){
-
-}
-
-function dashboard(){
+const Dashboard = ()=>{
 
 	return(
 		<div>
-		<Post />
+		<Searchbox />
 		</div>
 		);	
 }
 
-export default dashboard;
+export default Dashboard;
