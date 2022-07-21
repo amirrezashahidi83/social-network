@@ -7375,13 +7375,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Option = function Option(props) {
   var data = props.data;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    children: data.name
+    children: data.username
   });
 };
 
 var Searchbox = function Searchbox() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
-    name: 'a'
+    username: 'a'
   }]),
       _useState2 = _slicedToArray(_useState, 2),
       options = _useState2[0],

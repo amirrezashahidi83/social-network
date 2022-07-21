@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FollowController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -36,6 +38,10 @@ Route::post('/editcomment',[CommentController::class,'editComment']);
 Route::get('/getcomment',[CommentController::class,'getComment']);
 Route::get('/getpostcomments',[CommentController::class,'getPostComments']);
 Route::post('/deletecomment',[CommentController::class,'deleteComment']);
+
+Route:post('/follow',[FollowController::class,'follow']);
+Route:post('/unfollow',[FollowController::class,'unfollow']);
+Route:post('/getsuggestions',[FollowController::class,'getSuggestions']);
 
 Route::get('/user/{username}',[UserController::class,'getUser']);
 Route::get('/searchuser/{search}',[UserController::class,'searchUser']);

@@ -31,4 +31,17 @@ class UserController extends Controller
 
     	return response()->Json($response);
     }
+
+    public function readNotifications(Request $request){
+
+        $id = $request->only('id')['id'];
+
+        $user = User::where('id',$id)->first();
+
+        $notifications = $user->unreadNotifications();
+
+        $user->notifications->markAsRead();
+
+        return response()->Json($notifications);
+    }
 }

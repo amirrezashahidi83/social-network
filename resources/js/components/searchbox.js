@@ -7,14 +7,14 @@ const Option = (props) => {
   } = props
   return (
 	<div>
-	{data.name}
+	{data.username}
 	</div>
   )
 }
 
 const Searchbox = () => {
 
-	const [options,setOptions] = useState([{name:'a'}]);
+	const [options,setOptions] = useState([{username:'a'}]);
 
 	const searchOptions = (e) =>{
 		if(e.length > 3)
