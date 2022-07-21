@@ -1,16 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
 
 function App(){
 	return(
-		<div>
 		<BrowserRouter>
-			<Switch>
-						<Route path='/' component={Login} />
-			</Switch>
+			<Routes>
+						<Route exact path='/dashboard' element={< Dashboard />} />
+			</Routes>
 		</BrowserRouter>
-		</div>
 		);
 
 }
