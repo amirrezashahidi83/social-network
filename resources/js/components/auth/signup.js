@@ -1,32 +1,48 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import {Container,Card,Image,Row,Col,Nav,Form,Button,Tab,Tabs} from 'react-bootstrap';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+
 import Userdetails from './register/Userdetails';
 import Personaldetails from './register/Personaldetails';
 import Confirmation from  './register/Confirmation';
 
 const Signup = () =>{
 	
-	const [step,setStep] = useState(1);
+	const [step,setStep] = useState(0);
 
 	const PrevStep = ()=>{
-		setStep(step - 1);
+		setStep((prevStep) => step - 1);
 	}
 
 	const NextStep = () =>{
-		setStep(step + 1);
+		setStep((prevStep) => step + 1);
 	}
 
 	let page = <Userdetails />;
 
-	if(step == 2)
+	if(step == 1)
 		page = <Confirmation />;
-	else if(step == 3)
+	else if(step == 2)
 		page = <Personaldetails />;
 
 	return (
 		<Container>
 			<Card>
 				<Card.Body>
+					<Stepper activeStep={step} alternativeLabel>
+		    			<Step >
+		      				<StepLabel>Details</StepLabel>
+		    			</Step>
+		    			<Step >
+		      				<StepLabel>Confirmation</StepLabel>
+		    			</Step>
+		    			<Step >
+		      				<StepLabel>Personal</StepLabel>
+		    			</Step>
+					</Stepper>
+
 				{page}		
 				</Card.Body>
 
