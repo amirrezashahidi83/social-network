@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('sender_id');
             $table->json('likes')->nullable();
             $table->foreign('sender_id')->references('id')->on('users');
-            $table->timestamp('created_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
     }

@@ -1,12 +1,23 @@
+import {Container} from 'react-bootstrap';
+import Header from './Header';
 import Post from './post';
 import Searchbox from './Searchbox';
 
 const Dashboard = ()=>{
 
 	return(
-		<div>
-		<Searchbox />
-		</div>
+		<>
+			<Header />
+			<Container>
+				<Row>
+					<Col>
+					</Col>
+
+					<Col>
+					</Col>
+				</Row>
+			</Container>
+		</>
 		);	
 }
 
