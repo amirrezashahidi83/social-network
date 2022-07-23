@@ -39,9 +39,9 @@ Route::get('/getcomment',[CommentController::class,'getComment']);
 Route::get('/getpostcomments',[CommentController::class,'getPostComments']);
 Route::post('/deletecomment',[CommentController::class,'deleteComment']);
 
-Route:post('/follow',[FollowController::class,'follow']);
-Route:post('/unfollow',[FollowController::class,'unfollow']);
-Route:post('/getsuggestions',[FollowController::class,'getSuggestions']);
+Route::post('/follow',[FollowController::class,'follow']);
+Route::post('/unfollow',[FollowController::class,'unfollow']);
+Route::post('/getsuggestions',[FollowController::class,'getSuggestions']);
 
 Route::get('/user/{username}',[UserController::class,'getUser']);
 Route::get('/searchuser/{search}',[UserController::class,'searchUser']);

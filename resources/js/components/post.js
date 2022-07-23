@@ -1,6 +1,7 @@
 import {useState,useEffect} from 'react';
 import {Container,Card,Image,Row,Col,Nav,Form,Button,Tab,Tabs} from 'react-bootstrap';
 
+
 const Post = ({id}) => {
 
 	const [data,setData] = useState(0);
