@@ -5,7 +5,7 @@ import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import Signup from './components/auth/SignUp';
 import Signin from './components/auth/SignIn';
-
+import NewPost from './components/NewPost';
 function App(){
 	return(
 		<BrowserRouter>
@@ -14,6 +14,7 @@ function App(){
 						<Route path='/profile/:id' element={< Profile />} />
 						<Route path='/signup' element={< Signup />} />
 						<Route path='/signin' element={< Signin />} />
+						<Route path='/newpost' element={< NewPost />} />
 			</Routes>
 		</BrowserRouter>
 		);

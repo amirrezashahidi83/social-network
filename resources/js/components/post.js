@@ -1,13 +1,13 @@
 import {useState,useEffect} from 'react';
 import {Container,Card,Image,Row,Col,Nav,Form,Button,Tab,Tabs} from 'react-bootstrap';
-
+import MediaSlider from './MediaSlider';
 
 const Post = ({id}) => {
 
 	const [data,setData] = useState(0);
 
 	useEffect(()=>{	
-		new Promise((resolve,reject) => {
+		let p = new Promise((resolve,reject) => {
 
 			axios.post("/api/post",{id:id}).then(
 				function(response){
@@ -17,11 +17,10 @@ const Post = ({id}) => {
 		}).then((p)=>{
 			axios.get("/api/user/"+p.sender_id).then(
 				function(response){
-					let card = document.getElementById('card');
+					setData(p);
 					
 			})
 		});
-	
 	},[]);
 
 	return(
@@ -32,7 +31,7 @@ const Post = ({id}) => {
 			</Card.Header>
 
 			<Card.Body>
-
+			{data != 0 ? <MediaSlider media={data.media} /> : <div></div> }
 			</Card.Body>
 
 			<Card.Footer>

@@ -12341,6 +12341,147 @@ function useSafeState(state) {
 
 /***/ }),
 
+/***/ "./node_modules/@restart/hooks/esm/useTimeout.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@restart/hooks/esm/useTimeout.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ useTimeout)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _useMounted__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useMounted */ "./node_modules/@restart/hooks/esm/useMounted.js");
+/* harmony import */ var _useWillUnmount__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useWillUnmount */ "./node_modules/@restart/hooks/esm/useWillUnmount.js");
+
+
+
+/*
+ * Browsers including Internet Explorer, Chrome, Safari, and Firefox store the
+ * delay as a 32-bit signed integer internally. This causes an integer overflow
+ * when using delays larger than 2,147,483,647 ms (about 24.8 days),
+ * resulting in the timeout being executed immediately.
+ *
+ * via: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout
+ */
+
+var MAX_DELAY_MS = Math.pow(2, 31) - 1;
+
+function setChainedTimeout(handleRef, fn, timeoutAtMs) {
+  var delayMs = timeoutAtMs - Date.now();
+  handleRef.current = delayMs <= MAX_DELAY_MS ? setTimeout(fn, delayMs) : setTimeout(function () {
+    return setChainedTimeout(handleRef, fn, timeoutAtMs);
+  }, MAX_DELAY_MS);
+}
+/**
+ * Returns a controller object for setting a timeout that is properly cleaned up
+ * once the component unmounts. New timeouts cancel and replace existing ones.
+ *
+ *
+ *
+ * ```tsx
+ * const { set, clear } = useTimeout();
+ * const [hello, showHello] = useState(false);
+ * //Display hello after 5 seconds
+ * set(() => showHello(true), 5000);
+ * return (
+ *   <div className="App">
+ *     {hello ? <h3>Hello</h3> : null}
+ *   </div>
+ * );
+ * ```
+ */
+
+
+function useTimeout() {
+  var isMounted = (0,_useMounted__WEBPACK_IMPORTED_MODULE_1__["default"])(); // types are confused between node and web here IDK
+
+  var handleRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  (0,_useWillUnmount__WEBPACK_IMPORTED_MODULE_2__["default"])(function () {
+    return clearTimeout(handleRef.current);
+  });
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    var clear = function clear() {
+      return clearTimeout(handleRef.current);
+    };
+
+    function set(fn, delayMs) {
+      if (delayMs === void 0) {
+        delayMs = 0;
+      }
+
+      if (!isMounted()) return;
+      clear();
+
+      if (delayMs <= MAX_DELAY_MS) {
+        // For simplicity, if the timeout is short, just set a normal timeout.
+        handleRef.current = setTimeout(fn, delayMs);
+      } else {
+        setChainedTimeout(handleRef, fn, Date.now() + delayMs);
+      }
+    }
+
+    return {
+      set: set,
+      clear: clear
+    };
+  }, []);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@restart/hooks/esm/useUpdateEffect.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@restart/hooks/esm/useUpdateEffect.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+/**
+ * Runs an effect only when the dependencies have changed, skipping the
+ * initial "on mount" run. Caution, if the dependency list never changes,
+ * the effect is **never run**
+ *
+ * ```ts
+ *  const ref = useRef<HTMLInput>(null);
+ *
+ *  // focuses an element only if the focus changes, and not on mount
+ *  useUpdateEffect(() => {
+ *    const element = ref.current?.children[focusedIdx] as HTMLElement
+ *
+ *    element?.focus()
+ *
+ *  }, [focusedIndex])
+ * ```
+ * @param effect An effect to run on mount
+ *
+ * @category effects
+ */
+
+function useUpdateEffect(fn, deps) {
+  var isFirst = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(true);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (isFirst.current) {
+      isFirst.current = false;
+      return;
+    }
+
+    return fn();
+  }, deps);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useUpdateEffect);
+
+/***/ }),
+
 /***/ "./node_modules/@restart/hooks/esm/useUpdatedRef.js":
 /*!**********************************************************!*\
   !*** ./node_modules/@restart/hooks/esm/useUpdatedRef.js ***!
@@ -16725,6 +16866,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Container.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Row.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Col.js");
 /* harmony import */ var _Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Header */ "./resources/js/components/Header.js");
 /* harmony import */ var _post__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./post */ "./resources/js/components/post.js");
 /* harmony import */ var _Searchbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Searchbox */ "./resources/js/components/Searchbox.js");
@@ -16736,9 +16880,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var Dashboard = function Dashboard() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Header__WEBPACK_IMPORTED_MODULE_0__["default"], {})
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Header__WEBPACK_IMPORTED_MODULE_0__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_post__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          id: 2
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {})]
+      })
+    })]
   });
 };
 
@@ -16810,6 +16961,87 @@ var Header = function Header() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Header);
+
+/***/ }),
+
+/***/ "./resources/js/components/MediaSlider.js":
+/*!************************************************!*\
+  !*** ./resources/js/components/MediaSlider.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-bootstrap/Carousel */ "./node_modules/react-bootstrap/esm/Carousel.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+var MediaSlider = function MediaSlider(_ref) {
+  var media = _ref.media;
+  media = JSON.parse(media);
+  console.log(media);
+  var MediaItems = media.map(function (data) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1__["default"].Item, {
+      children: data.type == 'image' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
+        src: data.path
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("video", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("source", {
+          src: data.path
+        })
+      })
+    }, data.id);
+  });
+  console.log(MediaItems);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    children: MediaItems
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MediaSlider);
+
+/***/ }),
+
+/***/ "./resources/js/components/NewPost.js":
+/*!********************************************!*\
+  !*** ./resources/js/components/NewPost.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+var NewPost = function NewPost() {
+  var onClick = function onClick() {
+    var media = [{
+      id: 1,
+      type: 'image',
+      path: '/images/'
+    }, {
+      id: 2,
+      type: 'image',
+      path: '/images/'
+    }];
+    axios.post('/api/post/new', {
+      discussion: 'kos',
+      media: media,
+      sender_id: 1
+    }).then(function (response) {})["catch"](function (error) {});
+  };
+
+  onClick();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {});
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NewPost);
 
 /***/ }),
 
@@ -17236,8 +17468,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Card.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Card.js");
+/* harmony import */ var _MediaSlider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MediaSlider */ "./resources/js/components/MediaSlider.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -17255,6 +17488,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Post = function Post(_ref) {
   var id = _ref.id;
 
@@ -17264,7 +17498,7 @@ var Post = function Post(_ref) {
       setData = _useState2[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    new Promise(function (resolve, reject) {
+    var p = new Promise(function (resolve, reject) {
       axios.post("/api/post", {
         id: id
       }).then(function (response) {
@@ -17272,13 +17506,17 @@ var Post = function Post(_ref) {
       });
     }).then(function (p) {
       axios.get("/api/user/" + p.sender_id).then(function (response) {
-        var card = document.getElementById('card');
+        setData(p);
       });
     });
   }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
     id: "card",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Header, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Body, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Footer, {})]
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Header, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Body, {
+      children: data != 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_MediaSlider__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        media: data.media
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {})
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, {})]
   });
 };
 
@@ -17299,13 +17537,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _components_Dashboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Dashboard */ "./resources/js/components/Dashboard.js");
 /* harmony import */ var _components_Profile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Profile */ "./resources/js/components/Profile.js");
 /* harmony import */ var _components_auth_SignUp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/auth/SignUp */ "./resources/js/components/auth/SignUp.js");
 /* harmony import */ var _components_auth_SignIn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/auth/SignIn */ "./resources/js/components/auth/SignIn.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _components_NewPost__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/NewPost */ "./resources/js/components/NewPost.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -17317,28 +17557,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function App() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.BrowserRouter, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Routes, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.BrowserRouter, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Routes, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
         exact: true,
         path: "/dashboard",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Dashboard__WEBPACK_IMPORTED_MODULE_2__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_Dashboard__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
         path: "/profile/:id",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Profile__WEBPACK_IMPORTED_MODULE_3__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_Profile__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
         path: "/signup",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_auth_SignUp__WEBPACK_IMPORTED_MODULE_4__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_auth_SignUp__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
         path: "/signin",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_auth_SignIn__WEBPACK_IMPORTED_MODULE_5__["default"], {})
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_auth_SignIn__WEBPACK_IMPORTED_MODULE_5__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
+        path: "/newpost",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_NewPost__WEBPACK_IMPORTED_MODULE_6__["default"], {})
       })]
     })
   });
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
-react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(App, {}), document.getElementById('index'));
+react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(App, {}), document.getElementById('index'));
 
 /***/ }),
 
@@ -42931,6 +43174,463 @@ const CardImg = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef( // N
 });
 CardImg.displayName = 'CardImg';
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CardImg);
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/Carousel.js":
+/*!******************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/Carousel.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @restart/hooks/useEventCallback */ "./node_modules/@restart/hooks/esm/useEventCallback.js");
+/* harmony import */ var _restart_hooks_useUpdateEffect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @restart/hooks/useUpdateEffect */ "./node_modules/@restart/hooks/esm/useUpdateEffect.js");
+/* harmony import */ var _restart_hooks_useCommittedRef__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @restart/hooks/useCommittedRef */ "./node_modules/@restart/hooks/esm/useCommittedRef.js");
+/* harmony import */ var _restart_hooks_useTimeout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @restart/hooks/useTimeout */ "./node_modules/@restart/hooks/esm/useTimeout.js");
+/* harmony import */ var _restart_ui_Anchor__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @restart/ui/Anchor */ "./node_modules/@restart/ui/esm/Anchor.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var uncontrollable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! uncontrollable */ "./node_modules/uncontrollable/lib/esm/index.js");
+/* harmony import */ var _CarouselCaption__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./CarouselCaption */ "./node_modules/react-bootstrap/esm/CarouselCaption.js");
+/* harmony import */ var _CarouselItem__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./CarouselItem */ "./node_modules/react-bootstrap/esm/CarouselItem.js");
+/* harmony import */ var _ElementChildren__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ElementChildren */ "./node_modules/react-bootstrap/esm/ElementChildren.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var _transitionEndListener__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./transitionEndListener */ "./node_modules/react-bootstrap/esm/transitionEndListener.js");
+/* harmony import */ var _triggerBrowserReflow__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./triggerBrowserReflow */ "./node_modules/react-bootstrap/esm/triggerBrowserReflow.js");
+/* harmony import */ var _TransitionWrapper__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./TransitionWrapper */ "./node_modules/react-bootstrap/esm/TransitionWrapper.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const SWIPE_THRESHOLD = 40;
+const defaultProps = {
+  slide: true,
+  fade: false,
+  controls: true,
+  indicators: true,
+  indicatorLabels: [],
+  defaultActiveIndex: 0,
+  interval: 5000,
+  keyboard: true,
+  pause: 'hover',
+  wrap: true,
+  touch: true,
+  prevIcon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+    "aria-hidden": "true",
+    className: "carousel-control-prev-icon"
+  }),
+  prevLabel: 'Previous',
+  nextIcon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+    "aria-hidden": "true",
+    className: "carousel-control-next-icon"
+  }),
+  nextLabel: 'Next'
+};
+
+function isVisible(element) {
+  if (!element || !element.style || !element.parentNode || !element.parentNode.style) {
+    return false;
+  }
+
+  const elementStyle = getComputedStyle(element);
+  return elementStyle.display !== 'none' && elementStyle.visibility !== 'hidden' && getComputedStyle(element.parentNode).display !== 'none';
+}
+
+const Carousel = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.forwardRef((uncontrolledProps, ref) => {
+  const {
+    // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+    as: Component = 'div',
+    bsPrefix,
+    slide,
+    fade,
+    controls,
+    indicators,
+    indicatorLabels,
+    activeIndex,
+    onSelect,
+    onSlide,
+    onSlid,
+    interval,
+    keyboard,
+    onKeyDown,
+    pause,
+    onMouseOver,
+    onMouseOut,
+    wrap,
+    touch,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
+    prevIcon,
+    prevLabel,
+    nextIcon,
+    nextLabel,
+    variant,
+    className,
+    children,
+    ...props
+  } = (0,uncontrollable__WEBPACK_IMPORTED_MODULE_6__.useUncontrolled)(uncontrolledProps, {
+    activeIndex: 'onSelect'
+  });
+  const prefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_8__.useBootstrapPrefix)(bsPrefix, 'carousel');
+  const isRTL = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_8__.useIsRTL)();
+  const nextDirectionRef = (0,react__WEBPACK_IMPORTED_MODULE_5__.useRef)(null);
+  const [direction, setDirection] = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)('next');
+  const [paused, setPaused] = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)(false);
+  const [isSliding, setIsSliding] = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)(false);
+  const [renderedActiveIndex, setRenderedActiveIndex] = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)(activeIndex || 0);
+  (0,react__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
+    if (!isSliding && activeIndex !== renderedActiveIndex) {
+      if (nextDirectionRef.current) {
+        setDirection(nextDirectionRef.current);
+      } else {
+        setDirection((activeIndex || 0) > renderedActiveIndex ? 'next' : 'prev');
+      }
+
+      if (slide) {
+        setIsSliding(true);
+      }
+
+      setRenderedActiveIndex(activeIndex || 0);
+    }
+  }, [activeIndex, isSliding, renderedActiveIndex, slide]);
+  (0,react__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
+    if (nextDirectionRef.current) {
+      nextDirectionRef.current = null;
+    }
+  });
+  let numChildren = 0;
+  let activeChildInterval; // Iterate to grab all of the children's interval values
+  // (and count them, too)
+
+  (0,_ElementChildren__WEBPACK_IMPORTED_MODULE_9__.forEach)(children, (child, index) => {
+    ++numChildren;
+
+    if (index === activeIndex) {
+      activeChildInterval = child.props.interval;
+    }
+  });
+  const activeChildIntervalRef = (0,_restart_hooks_useCommittedRef__WEBPACK_IMPORTED_MODULE_2__["default"])(activeChildInterval);
+  const prev = (0,react__WEBPACK_IMPORTED_MODULE_5__.useCallback)(event => {
+    if (isSliding) {
+      return;
+    }
+
+    let nextActiveIndex = renderedActiveIndex - 1;
+
+    if (nextActiveIndex < 0) {
+      if (!wrap) {
+        return;
+      }
+
+      nextActiveIndex = numChildren - 1;
+    }
+
+    nextDirectionRef.current = 'prev';
+    onSelect == null ? void 0 : onSelect(nextActiveIndex, event);
+  }, [isSliding, renderedActiveIndex, onSelect, wrap, numChildren]); // This is used in the setInterval, so it should not invalidate.
+
+  const next = (0,_restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_0__["default"])(event => {
+    if (isSliding) {
+      return;
+    }
+
+    let nextActiveIndex = renderedActiveIndex + 1;
+
+    if (nextActiveIndex >= numChildren) {
+      if (!wrap) {
+        return;
+      }
+
+      nextActiveIndex = 0;
+    }
+
+    nextDirectionRef.current = 'next';
+    onSelect == null ? void 0 : onSelect(nextActiveIndex, event);
+  });
+  const elementRef = (0,react__WEBPACK_IMPORTED_MODULE_5__.useRef)();
+  (0,react__WEBPACK_IMPORTED_MODULE_5__.useImperativeHandle)(ref, () => ({
+    element: elementRef.current,
+    prev,
+    next
+  })); // This is used in the setInterval, so it should not invalidate.
+
+  const nextWhenVisible = (0,_restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_0__["default"])(() => {
+    if (!document.hidden && isVisible(elementRef.current)) {
+      if (isRTL) {
+        prev();
+      } else {
+        next();
+      }
+    }
+  });
+  const slideDirection = direction === 'next' ? 'start' : 'end';
+  (0,_restart_hooks_useUpdateEffect__WEBPACK_IMPORTED_MODULE_1__["default"])(() => {
+    if (slide) {
+      // These callbacks will be handled by the <Transition> callbacks.
+      return;
+    }
+
+    onSlide == null ? void 0 : onSlide(renderedActiveIndex, slideDirection);
+    onSlid == null ? void 0 : onSlid(renderedActiveIndex, slideDirection);
+  }, [renderedActiveIndex]);
+  const orderClassName = `${prefix}-item-${direction}`;
+  const directionalClassName = `${prefix}-item-${slideDirection}`;
+  const handleEnter = (0,react__WEBPACK_IMPORTED_MODULE_5__.useCallback)(node => {
+    (0,_triggerBrowserReflow__WEBPACK_IMPORTED_MODULE_10__["default"])(node);
+    onSlide == null ? void 0 : onSlide(renderedActiveIndex, slideDirection);
+  }, [onSlide, renderedActiveIndex, slideDirection]);
+  const handleEntered = (0,react__WEBPACK_IMPORTED_MODULE_5__.useCallback)(() => {
+    setIsSliding(false);
+    onSlid == null ? void 0 : onSlid(renderedActiveIndex, slideDirection);
+  }, [onSlid, renderedActiveIndex, slideDirection]);
+  const handleKeyDown = (0,react__WEBPACK_IMPORTED_MODULE_5__.useCallback)(event => {
+    if (keyboard && !/input|textarea/i.test(event.target.tagName)) {
+      switch (event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+
+          if (isRTL) {
+            next(event);
+          } else {
+            prev(event);
+          }
+
+          return;
+
+        case 'ArrowRight':
+          event.preventDefault();
+
+          if (isRTL) {
+            prev(event);
+          } else {
+            next(event);
+          }
+
+          return;
+
+        default:
+      }
+    }
+
+    onKeyDown == null ? void 0 : onKeyDown(event);
+  }, [keyboard, onKeyDown, prev, next, isRTL]);
+  const handleMouseOver = (0,react__WEBPACK_IMPORTED_MODULE_5__.useCallback)(event => {
+    if (pause === 'hover') {
+      setPaused(true);
+    }
+
+    onMouseOver == null ? void 0 : onMouseOver(event);
+  }, [pause, onMouseOver]);
+  const handleMouseOut = (0,react__WEBPACK_IMPORTED_MODULE_5__.useCallback)(event => {
+    setPaused(false);
+    onMouseOut == null ? void 0 : onMouseOut(event);
+  }, [onMouseOut]);
+  const touchStartXRef = (0,react__WEBPACK_IMPORTED_MODULE_5__.useRef)(0);
+  const touchDeltaXRef = (0,react__WEBPACK_IMPORTED_MODULE_5__.useRef)(0);
+  const touchUnpauseTimeout = (0,_restart_hooks_useTimeout__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  const handleTouchStart = (0,react__WEBPACK_IMPORTED_MODULE_5__.useCallback)(event => {
+    touchStartXRef.current = event.touches[0].clientX;
+    touchDeltaXRef.current = 0;
+
+    if (pause === 'hover') {
+      setPaused(true);
+    }
+
+    onTouchStart == null ? void 0 : onTouchStart(event);
+  }, [pause, onTouchStart]);
+  const handleTouchMove = (0,react__WEBPACK_IMPORTED_MODULE_5__.useCallback)(event => {
+    if (event.touches && event.touches.length > 1) {
+      touchDeltaXRef.current = 0;
+    } else {
+      touchDeltaXRef.current = event.touches[0].clientX - touchStartXRef.current;
+    }
+
+    onTouchMove == null ? void 0 : onTouchMove(event);
+  }, [onTouchMove]);
+  const handleTouchEnd = (0,react__WEBPACK_IMPORTED_MODULE_5__.useCallback)(event => {
+    if (touch) {
+      const touchDeltaX = touchDeltaXRef.current;
+
+      if (Math.abs(touchDeltaX) > SWIPE_THRESHOLD) {
+        if (touchDeltaX > 0) {
+          prev(event);
+        } else {
+          next(event);
+        }
+      }
+    }
+
+    if (pause === 'hover') {
+      touchUnpauseTimeout.set(() => {
+        setPaused(false);
+      }, interval || undefined);
+    }
+
+    onTouchEnd == null ? void 0 : onTouchEnd(event);
+  }, [touch, pause, prev, next, touchUnpauseTimeout, interval, onTouchEnd]);
+  const shouldPlay = interval != null && !paused && !isSliding;
+  const intervalHandleRef = (0,react__WEBPACK_IMPORTED_MODULE_5__.useRef)();
+  (0,react__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
+    var _ref, _activeChildIntervalR;
+
+    if (!shouldPlay) {
+      return undefined;
+    }
+
+    const nextFunc = isRTL ? prev : next;
+    intervalHandleRef.current = window.setInterval(document.visibilityState ? nextWhenVisible : nextFunc, (_ref = (_activeChildIntervalR = activeChildIntervalRef.current) != null ? _activeChildIntervalR : interval) != null ? _ref : undefined);
+    return () => {
+      if (intervalHandleRef.current !== null) {
+        clearInterval(intervalHandleRef.current);
+      }
+    };
+  }, [shouldPlay, prev, next, activeChildIntervalRef, interval, nextWhenVisible, isRTL]);
+  const indicatorOnClicks = (0,react__WEBPACK_IMPORTED_MODULE_5__.useMemo)(() => indicators && Array.from({
+    length: numChildren
+  }, (_, index) => event => {
+    onSelect == null ? void 0 : onSelect(index, event);
+  }), [indicators, numChildren, onSelect]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(Component, {
+    ref: elementRef,
+    ...props,
+    onKeyDown: handleKeyDown,
+    onMouseOver: handleMouseOver,
+    onMouseOut: handleMouseOut,
+    onTouchStart: handleTouchStart,
+    onTouchMove: handleTouchMove,
+    onTouchEnd: handleTouchEnd,
+    className: classnames__WEBPACK_IMPORTED_MODULE_4___default()(className, prefix, slide && 'slide', fade && `${prefix}-fade`, variant && `${prefix}-${variant}`),
+    children: [indicators && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      className: `${prefix}-indicators`,
+      children: (0,_ElementChildren__WEBPACK_IMPORTED_MODULE_9__.map)(children, (_, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+        type: "button",
+        "data-bs-target": "" // Bootstrap requires this in their css.
+        ,
+        "aria-label": indicatorLabels != null && indicatorLabels.length ? indicatorLabels[index] : `Slide ${index + 1}`,
+        className: index === renderedActiveIndex ? 'active' : undefined,
+        onClick: indicatorOnClicks ? indicatorOnClicks[index] : undefined,
+        "aria-current": index === renderedActiveIndex
+      }, index))
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      className: `${prefix}-inner`,
+      children: (0,_ElementChildren__WEBPACK_IMPORTED_MODULE_9__.map)(children, (child, index) => {
+        const isActive = index === renderedActiveIndex;
+        return slide ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_TransitionWrapper__WEBPACK_IMPORTED_MODULE_11__["default"], {
+          in: isActive,
+          onEnter: isActive ? handleEnter : undefined,
+          onEntered: isActive ? handleEntered : undefined,
+          addEndListener: _transitionEndListener__WEBPACK_IMPORTED_MODULE_12__["default"],
+          children: (status, innerProps) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.cloneElement(child, { ...innerProps,
+            className: classnames__WEBPACK_IMPORTED_MODULE_4___default()(child.props.className, isActive && status !== 'entered' && orderClassName, (status === 'entered' || status === 'exiting') && 'active', (status === 'entering' || status === 'exiting') && directionalClassName)
+          })
+        }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.cloneElement(child, {
+          className: classnames__WEBPACK_IMPORTED_MODULE_4___default()(child.props.className, isActive && 'active')
+        });
+      })
+    }), controls && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+      children: [(wrap || activeIndex !== 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_restart_ui_Anchor__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        className: `${prefix}-control-prev`,
+        onClick: prev,
+        children: [prevIcon, prevLabel && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          className: "visually-hidden",
+          children: prevLabel
+        })]
+      }), (wrap || activeIndex !== numChildren - 1) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_restart_ui_Anchor__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        className: `${prefix}-control-next`,
+        onClick: next,
+        children: [nextIcon, nextLabel && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          className: "visually-hidden",
+          children: nextLabel
+        })]
+      })]
+    })]
+  });
+});
+Carousel.displayName = 'Carousel';
+Carousel.defaultProps = defaultProps;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Object.assign(Carousel, {
+  Caption: _CarouselCaption__WEBPACK_IMPORTED_MODULE_14__["default"],
+  Item: _CarouselItem__WEBPACK_IMPORTED_MODULE_15__["default"]
+}));
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/CarouselCaption.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/CarouselCaption.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _createWithBsPrefix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createWithBsPrefix */ "./node_modules/react-bootstrap/esm/createWithBsPrefix.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_createWithBsPrefix__WEBPACK_IMPORTED_MODULE_0__["default"])('carousel-caption'));
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/CarouselItem.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/CarouselItem.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+const CarouselItem = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef(({
+  // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+  as: Component = 'div',
+  bsPrefix,
+  className,
+  ...props
+}, ref) => {
+  const finalClassName = classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_3__.useBootstrapPrefix)(bsPrefix, 'carousel-item'));
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Component, {
+    ref: ref,
+    ...props,
+    className: finalClassName
+  });
+});
+CarouselItem.displayName = 'CarouselItem';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CarouselItem);
 
 /***/ }),
 

@@ -1,9 +1,10 @@
-import {Container} from 'react-bootstrap';
+import {Container,Row,Col} from 'react-bootstrap';
 import Header from './Header';
 import Post from './post';
 import Searchbox from './Searchbox';
 
 const Dashboard = ()=>{
+
 
 	return(
 		<>
@@ -12,7 +13,7 @@ const Dashboard = ()=>{
 				<Row>
 					<Col>
 					</Col>
-
+					<Post id={2}/>
 					<Col>
 					</Col>
 				</Row>

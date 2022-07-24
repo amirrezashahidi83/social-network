@@ -26,23 +26,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'register']);
 
-Route::post('/addpost',[PostController::class,'addPost']);
-Route::post('/editpost',[PostController::class,'getPost']);
+Route::post('/post/new',[PostController::class,'newPost']);
+Route::post('/post/edit',[PostController::class,'getPost']);
 Route::post('/post',[PostController::class,'getPost']);
-Route::post('/getuserposts',[PostController::class,'getUserPosts']);
-Route::post('/deletepost',[PostController::class,'deletePost']);
-Route::post('/searchpost',[PostController::class,'searchPost']);
+Route::post('/post/recent',[PostController::class,'getRecentPosts']);
+Route::post('/user/posts',[PostController::class,'getUserPosts']);
+Route::post('/post/delete',[PostController::class,'deletePost']);
+Route::post('/post/search',[PostController::class,'searchPost']);
+Route::get('/post/comments',[CommentController::class,'getPostComments']);
 
-Route::post('/addcomment',[CommentController::class,'addComment']);
-Route::post('/editcomment',[CommentController::class,'editComment']);
-Route::get('/getcomment',[CommentController::class,'getComment']);
-Route::get('/getpostcomments',[CommentController::class,'getPostComments']);
-Route::post('/deletecomment',[CommentController::class,'deleteComment']);
+Route::post('/comment/new',[CommentController::class,'addComment']);
+Route::post('/comment/edit',[CommentController::class,'editComment']);
+Route::get('/comment',[CommentController::class,'getComment']);
+Route::post('/comment/delete',[CommentController::class,'deleteComment']);
 
 Route::post('/follow',[FollowController::class,'follow']);
 Route::post('/unfollow',[FollowController::class,'unfollow']);
-Route::post('/getsuggestions',[FollowController::class,'getSuggestions']);
+Route::post('/user/suggestions',[FollowController::class,'getSuggestions']);
 
 Route::get('/user/{username}',[UserController::class,'getUser']);
-Route::get('/searchuser/{search}',[UserController::class,'searchUser']);
-Route::get('/deleteuser/{username}',[UserController::class,'deleteUser']);
+Route::get('/user/search/{search}',[UserController::class,'searchUser']);
+Route::get('/user/delete/{username}',[UserController::class,'deleteUser']);

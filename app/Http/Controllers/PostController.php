@@ -7,7 +7,7 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-	public function addPost(Request $request)
+	public function newPost(Request $request)
 	{
 		$inputs = $request->only('discussion','media','sender_id');
 
@@ -15,7 +15,7 @@ class PostController extends Controller
 
 		$post->discussion = $inputs['discussion'];
 		if($request->exists('media'))
-			$post->media = $inputs['media'];
+			$post->media = json_encode($inputs['media']);
 		$post->sender_id = $inputs['sender_id'];
 
 		return ($post->save() ? 1 : 0);
@@ -34,6 +34,26 @@ class PostController extends Controller
 
 		return ($post->save() ? 1 : 0);
 
+	}
+
+	public function getrecentPosts(Request $request)
+	{
+		$inputs = $request->only('id','position');
+
+		$id = $inputs['id'];
+		$position = $inputs['position'];
+
+		$current_User = App\Models\User::where('id',$id)->first();
+
+		$followings = App\Models\Follow::where('follower_id',$id)->get();
+
+		$recent_posts = Post::where('sender_id',$followings[0]->id)->sortBy('created_at')->slice(10,$position)->get();
+
+		for($i = 1;$i<$followings->count();$i++)
+			$recent_posts->append(Post::where('sender_id',$followings[$i]->id)->sortBy('created_at')->slice(10,$position)->get());
+		
+
+		return response()->Json($recent_posts);
 	}
 
     public function getPost(Request $request)
