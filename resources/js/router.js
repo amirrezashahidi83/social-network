@@ -5,7 +5,9 @@ import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import Signup from './components/auth/SignUp';
 import Signin from './components/auth/SignIn';
-import NewPost from './components/NewPost';
+import NewPost from './components/Settings';
+import ViewPost from './components/ViewPost';
+
 function App(){
 	return(
 		<BrowserRouter>
@@ -15,6 +17,7 @@ function App(){
 						<Route path='/signup' element={< Signup />} />
 						<Route path='/signin' element={< Signin />} />
 						<Route path='/newpost' element={< NewPost />} />
+						<Route path='/viewpost/:post_id' element={<ViewPost />} />
 			</Routes>
 		</BrowserRouter>
 		);

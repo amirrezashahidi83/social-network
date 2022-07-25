@@ -2,6 +2,9 @@ import {useState,useEffect} from 'react';
 import {Container,Card,Image,Row,Col,Nav,Form,Button,Tab,Tabs} from 'react-bootstrap';
 import MediaSlider from './MediaSlider';
 
+import { Avatar } from 'react-profile-avatar';
+import 'react-profile-avatar/dist/index.css';
+
 const Post = ({id}) => {
 
 	const [data,setData] = useState(0);
@@ -27,7 +30,14 @@ const Post = ({id}) => {
 
 		<Card id='card'>
 			<Card.Header>
-
+			<Col>
+			<Avatar  />
+			</Col>
+			<Col>
+			<Row>{data.displayname}</Row>
+			<Row>{data.username}</Row>
+			</Col>
+			<Col></Col>
 			</Card.Header>
 
 			<Card.Body>
@@ -35,6 +45,7 @@ const Post = ({id}) => {
 			</Card.Body>
 
 			<Card.Footer>
+
 			</Card.Footer>
 		</Card>
 		);	

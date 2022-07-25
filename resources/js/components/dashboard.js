@@ -12,6 +12,7 @@ const Dashboard = ()=>{
 			<Container>
 				<Row>
 					<Col>
+					
 					</Col>
 					<Post id={2}/>
 					<Col>

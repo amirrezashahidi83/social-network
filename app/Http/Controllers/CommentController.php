@@ -35,7 +35,7 @@ class CommentController extends Controller
 
     public function getPostComments($post_id)
     {
-    	$posts = Post::where('post_id',$id)->get();
+    	$posts = \App\Models\Comment::where('post_id',$post_id)->get();
 		return response()->Json($posts);
 
     }
