@@ -11,6 +11,8 @@
         "@popperjs/core": "^2.10.2",
         "axios": "^0.25",
         "bootstrap": "^5.1.3",
+        "browser-sync": "^2.27.10",
+        "browser-sync-webpack-plugin": "^2.3.0",
         "laravel-vite-plugin": "^0.4.0",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
@@ -24,6 +26,7 @@
     "dependencies": {
         "@emotion/react": "^11.9.3",
         "@emotion/styled": "^11.9.3",
+        "@mui/icons-material": "^5.8.4",
         "@mui/material": "^5.9.1",
         "autoprefixer": "10.4.5",
         "cross-env": "^7.0.3",
@@ -33,6 +36,7 @@
         "react-profile-avatar": "^1.0.0",
         "react-router": "^6.3.0",
         "react-router-dom": "^6.3.0",
-        "react-select": "^5.4.0"
+        "react-select": "^5.4.0",
+        "webpack": "^5.74.0"
     }
 }

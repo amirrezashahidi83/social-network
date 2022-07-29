@@ -33,6 +33,7 @@ Route::post('/post/recent',[PostController::class,'getRecentPosts']);
 Route::post('/user/posts',[PostController::class,'getUserPosts']);
 Route::post('/post/delete',[PostController::class,'deletePost']);
 Route::post('/post/search',[PostController::class,'searchPost']);
+Route::post('/post/like',[PostController::class,'likePost']);
 Route::get('/post/{post_id}/comments',[CommentController::class,'getPostComments']);
 
 Route::post('/comment/new',[CommentController::class,'addComment']);

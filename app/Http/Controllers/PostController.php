@@ -101,7 +101,7 @@ class PostController extends Controller
 
 		array_push($likes_json,array($user_id,$dislike));
 
-		return ($post->save()?1:0);	
+		return ($post->save()?$response->Json($post):0);	
 	}
 
 }

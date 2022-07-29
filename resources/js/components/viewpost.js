@@ -1,4 +1,6 @@
 import {useParams} from 'react-router-dom';
+import {Container,Row,Col} from 'react-bootstrap';
+import Post from './Post';
 
 const insertComment = () => {
 
@@ -14,9 +16,16 @@ const ViewPost = () => {
 	}
 	
 	loadComments();
-
 	return (
 			<div>
+			<Container>
+				<Row className=''>
+				<Col>
+					<Post id={post_id} />
+				</Col>
+				<Col></Col>
+				</Row>
+			</Container>
 			</div>
 		);
 }

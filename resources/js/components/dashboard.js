@@ -1,6 +1,6 @@
 import {Container,Row,Col} from 'react-bootstrap';
 import Header from './Header';
-import Post from './post';
+import Post from './Post';
 import Searchbox from './Searchbox';
 
 const Dashboard = ()=>{

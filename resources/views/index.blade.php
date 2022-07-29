@@ -5,6 +5,9 @@
 	<link rel="manifest" href="{{ asset('/manifest.json') }}">
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+
+	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+	
 </head>
 <body class='bg-light'><div id="index" class='w-100 h-100'></div>
 <script src="{{ asset('/sw.js') }}"></script>
