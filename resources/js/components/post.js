@@ -1,7 +1,7 @@
 import {useState,useEffect} from 'react';
 import {Container,Card,Image,Row,Col,Nav,Form,Button,Tab,Tabs,Dropdown} from 'react-bootstrap';
 import MediaSlider from './MediaSlider';
-
+import Userheader from './Userheader';
 import { Avatar } from 'react-profile-avatar';
 import 'react-profile-avatar/dist/index.css';
 
@@ -25,21 +25,14 @@ const Post = ({id}) => {
 	}
 
 	useEffect(()=>{	
-		let p = new Promise((resolve,reject) => {
 
-			axios.post("/api/post",{id:id}).then(
-				function(response){
-					resolve((response.data));
-			})
-
-		}).then((p)=>{
-			axios.get("/api/user/"+p.sender_id).then(
-				function(response){
-					setData(Object.assign(p,response.data));
-					
-			})
+		axios.post("/api/post",{id:id}).then(
+			function(response){
+				setData(response.data);
 		});
+
 	},[]);
+
 	console.log(data);
 	return(
 
@@ -47,23 +40,9 @@ const Post = ({id}) => {
 			<Card.Header>
 				<Row>
 					
-					<Col className='col-2'>
-						<Avatar />
+					<Col>
+						<Userheader id={data.sender_id}/>
 					</Col>
-
-					<Col className='col-2'>
-						<Row>
-							<Col>
-								{data.displayname}
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								{data.username}
-							</Col>
-						</Row>
-					</Col>
-					
 					<Col></Col>
 					<Col>
 					    <Dropdown>

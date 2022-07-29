@@ -5,7 +5,7 @@ import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import Signup from './components/auth/SignUp';
 import Signin from './components/auth/SignIn';
-import NewPost from './components/Settings';
+import NewPost from './components/NewPost';
 import ViewPost from './components/ViewPost';
 
 function App(){

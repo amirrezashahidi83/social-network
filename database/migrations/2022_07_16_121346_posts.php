@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('discussion');
+            $table->string('content');
             $table->json('media')->nullable();
             $table->foreignId('sender_id');
             $table->json('likes')->nullable();

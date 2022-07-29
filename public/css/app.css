@@ -10911,3 +10911,9 @@ textarea.form-control-lg {
 .dropdown-toggle::after {
   display: none !important;
 }
+
+textarea {
+  outline: none;
+  border: none;
+  resize: none;
+}

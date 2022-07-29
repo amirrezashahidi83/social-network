@@ -38,7 +38,7 @@ Route::get('/post/{post_id}/comments',[CommentController::class,'getPostComments
 
 Route::post('/comment/new',[CommentController::class,'addComment']);
 Route::post('/comment/edit',[CommentController::class,'editComment']);
-Route::get('/comment',[CommentController::class,'getComment']);
+Route::get('/comment/{id}',[CommentController::class,'getComment']);
 Route::post('/comment/delete',[CommentController::class,'deleteComment']);
 
 Route::post('/follow',[FollowController::class,'follow']);

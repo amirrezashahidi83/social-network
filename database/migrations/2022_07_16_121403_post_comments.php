@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('post_comments', function (Blueprint $table) {
             $table->id();
-            $table->string('discussion');
+            $table->string('content');
             $table->Json('likes');
             $table->foreignId('post_id');
+            $table->foreignId('sender_id');
             $table->foreign('post_id')->references('id')->on('posts');
+            $table->foreign('sender_id')->references('id')->on('users');
             $table->timestamp('created_at')->nullable();
         });
 
