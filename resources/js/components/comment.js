@@ -1,4 +1,5 @@
-import {Card} from 'react-bootstrap';
+import {useState,useEffect} from 'react';
+import {Card,Row,Col,Button} from 'react-bootstrap';
 import Userheader from './Userheader';
 
 const Comment = ({id})=>{

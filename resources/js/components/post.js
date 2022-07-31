@@ -2,19 +2,35 @@ import {useState,useEffect} from 'react';
 import {Container,Card,Image,Row,Col,Nav,Form,Button,Tab,Tabs,Dropdown} from 'react-bootstrap';
 import MediaSlider from './MediaSlider';
 import Userheader from './Userheader';
-import { Avatar } from 'react-profile-avatar';
-import 'react-profile-avatar/dist/index.css';
+import Comment from './Comment';
+import TextField from '@mui/material/TextField';
+import EmojiPicker from 'emoji-picker-react';
+import {MoreVert,ThumbUpAlt,ThumbDownAlt,InsertComment as InsertCommentIcon,Share} from '@mui/icons-material';
 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
-import InsertCommentIcon from '@mui/icons-material/InsertComment';
-import ShareIcon from '@mui/icons-material/Share';
+
+const InsertComment = ()=>{
+	return (
+		<TextField 
+		className='p-3'
+		multiline
+		/>
+		);
+}
 
 const Post = ({id}) => {
 
 	const [data,setData] = useState(0);
 
+	const [comments,setComments] = useState([]);
+
+	const loadComments = () => {
+
+		axios.get("/api/post/"+id+"/comments")
+		.then(function(response){
+			setComments(response.data);
+		});
+	}
+	
 	const like = (dislike) =>{
 		
 		let user_id = 0;
@@ -41,13 +57,13 @@ const Post = ({id}) => {
 				<Row>
 					
 					<Col>
-						<Userheader id={data.sender_id}/>
+						{data != 0 ? <Userheader id={data.sender_id}/> :<div></div>}
 					</Col>
 					<Col></Col>
 					<Col>
 					    <Dropdown>
 					      <Dropdown.Toggle  id="dropdown-basic" className='e-caret-hide' >
-					        <MoreVertIcon />
+					        <MoreVert />
 					      </Dropdown.Toggle>
 
 					      <Dropdown.Menu>
@@ -63,28 +79,32 @@ const Post = ({id}) => {
 			<Card.Body>
 			<p>{data.discussion}</p>
 			<p>
-			{data != 0 ? <MediaSlider media={data.media} /> : <div></div> }
+			{data != 0 && data.media != null ? <MediaSlider media={data.media} /> : <div></div> }
 			</p>
 			</Card.Body>
 
 			<Card.Footer>
 				<Row>
 					<Col>
-						<Button onClick={like(false)} variant="secondary"> <ThumbUpAltIcon /> </Button>
+						<Button onClick={()=>like(false)} variant="secondary"> <ThumbUpAlt /> </Button>
 					</Col>
 
 					<Col>
-						<Button onClick={like(true)} variant="secondary"> <ThumbDownAltIcon /> </Button>
+						<Button onClick={()=>like(true)} variant="secondary"> <ThumbDownAlt /> </Button>
 					</Col>
 
 					<Col>
-						<Button variant="secondary"> <InsertCommentIcon /> </Button>
+						<Button variant="secondary" onClick={()=>loadComments()}> <InsertCommentIcon /> </Button>
 					</Col>
 
 					<Col>
-						<Button > <ShareIcon /> </Button>
+						<Button > <Share /> </Button>
 					</Col>
 				</Row>
+
+					<InsertComment />
+					{ comments.map((data)=> <Comment key={data.id} id={data.id} />) }
+
 			</Card.Footer>
 		</Card>
 		);	

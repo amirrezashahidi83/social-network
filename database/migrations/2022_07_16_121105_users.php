@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('info')->default('');
             $table->string('profilepic')->default('');
             $table->boolean('enabled_account')->default(False);
-            $table->timestamp('created_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
     }

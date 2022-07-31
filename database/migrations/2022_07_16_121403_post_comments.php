@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('sender_id');
             $table->foreign('post_id')->references('id')->on('posts');
             $table->foreign('sender_id')->references('id')->on('users');
-            $table->timestamp('created_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
     }

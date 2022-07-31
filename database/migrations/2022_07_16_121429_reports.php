@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('cause');
             $table->foreignId('post_id');
             $table->foreign('post_id')->references('id')->on('posts');
-            $table->timestamp('created_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
     }
