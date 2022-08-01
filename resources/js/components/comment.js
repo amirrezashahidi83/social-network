@@ -6,6 +6,14 @@ const Comment = ({id})=>{
 
 	const [data,setData] = useState({});
 
+	const like = (dislike) =>{
+		let user_id = 0;
+		axios.post("/api/comment/like",{user_id:user_id,comment_id:id,dislike:dislike})
+		.then(function(response){
+			setData(response.data);
+		});
+	}
+
 	useEffect(()=>{
 		axios.get('/api/comment/'+id)
 		.then(function(response){
@@ -26,7 +34,11 @@ const Comment = ({id})=>{
 				<Card.Footer className='bg-light'>
 					<Row>
 						<Col>
-							<Button />
+							<Button onClick={() => like(false)} />
+						</Col>
+
+						<Col>
+							<Button onClick={() => like(true)} />
 						</Col>
 					</Row>
 				</Card.Footer>

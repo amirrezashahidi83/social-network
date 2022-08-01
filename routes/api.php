@@ -38,6 +38,7 @@ Route::get('/post/{post_id}/comments',[CommentController::class,'getPostComments
 
 Route::post('/comment/new',[CommentController::class,'addComment']);
 Route::post('/comment/edit',[CommentController::class,'editComment']);
+Route::post('/comment/like',[CommentController::class,'likeComment']);
 Route::get('/comment/{id}',[CommentController::class,'getComment']);
 Route::post('/comment/delete',[CommentController::class,'deleteComment']);
 
