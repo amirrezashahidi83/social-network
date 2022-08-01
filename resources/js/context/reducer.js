@@ -1,8 +1,12 @@
 import React,{useReducer} from 'react';
 
 export const initialState = {
-	userDetails: "",
-	token: "",
+	userDetails: (localStorage.getItem("currentUser")
+  ? JSON.parse(localStorage.getItem("currentUser")).user
+  : ""),
+	token: (localStorage.getItem("currentUser")
+  ? JSON.parse(localStorage.getItem("currentUser")).auth_token
+  : ""),
 	loading: false,
 	errorMessage: null
 }

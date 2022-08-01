@@ -1,9 +1,14 @@
 import {Container,Card,Image,Row,Col,Nav,Form,Button,Tab,Tabs} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 
-const SignIn = () =>{
-		const navigate = useNavigate();
+import {AuthContext} from '../../context/Context';
 
+const SignIn = () =>{
+	
+	const navigate = useNavigate();
+
+	const [user,dispatch] = useContext(AuthContext);
+	
 	const checkLogin = (e) =>{
 		e.preventDefault();
 
